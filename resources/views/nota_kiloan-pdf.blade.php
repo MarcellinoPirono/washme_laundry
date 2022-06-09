@@ -3,7 +3,7 @@
 
 <head>
 
-        <!-- Custom styles for this template-->
+    <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.css" rel="stylesheet">
 
 </head>
@@ -22,7 +22,7 @@
     <div class="row d-sm-flex justify-content-center">
         <div class="col-xl-5 col-lg-5">
             <div class="card-nota1">
-                
+
                 <div class="my-1">
                     <p class="text-black-100 mt-1 mb-1 small split-para">Mulai<span class="text-right">Selesai</span></p>
                 </div>
@@ -99,7 +99,6 @@
                 </div>
                 <div class="row d-flex justify-content-center my-1">
                     <a href="#"><i class="fab fa-facebook fa-2x" style="color: blue;"></i></a>
-                    <!-- <a href="#"><img class="ml-4" src="assets/img/image/Instagram.png" width="30px"></a> -->
                     <a href="#"><i class="fab fa-twitter fa-2x ml-4" style="color: #00acee;"></i></a>
                 </div>
             </div>

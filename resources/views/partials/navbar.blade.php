@@ -14,7 +14,7 @@
         <!-- Nav Item - User Information -->
         <li class="nav-item dropdown no-arrow">
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-user-circle" style="font-size: 25px; color: black;"></i>
+                <img class="ml-n4 gambar" src="{{ auth()->user()->foto_profil }}" style="width: 25px;">
                 <span class="ml-2 d-none d-lg-inline text-gray-600 small">Selamat Datang, {{ auth()->user()->nama }}</span>
             </a>
             <!-- Dropdown - User Information -->

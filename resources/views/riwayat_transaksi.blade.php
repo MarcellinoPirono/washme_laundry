@@ -117,7 +117,7 @@
                                 @endif
                             </td>
                             <td>
-                                <a href="{{ "put_transaksi_".$riwayat->no_invoice }}""><img class="btn-table gambar-table" src="assets/img/image/edit.png" style="width: 35px;" title="Ubah Data"></a>
+                                <a href="{{ "put_transaksi_".$riwayat->no_invoice }}""><img class=" btn-table gambar-table" src="assets/img/image/edit.png" style="width: 35px;" title="Ubah Data"></a>
                                 <a href="{{ "detail_transaksi_".$riwayat->no_invoice }}"><img class="btn-table gambar-table" src="assets/img/image/detail.png" style="width: 35px;" title="Lihat Data"></a>
                                 <a href="#" data-toggle="modal" data-target="#deleteModal{{ $riwayat->no_invoice }}"><img class="btn-table gambar-table" src="assets/img/image/delete.png" style="width: 35px;" title="Hapus Data"></a>
                             </td>
@@ -127,14 +127,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="mt-3 btn btn-danger">
-                <img class="mb-1" src="assets/img/image/pdf.png" style="width: 20px;">
-                Export PDF
-            </div>
-            <div class="mt-3 btn btn-success">
-                <img class="mb-1" src="assets/img/image/excel.png" style="width: 25.5px;">
-                Export Excel
-            </div>
+            <a href="/downloadpdf_transaksi" class="mt-3 btn btn-danger "><img class="mb-1" src="assets/img/image/pdf.png" width="25px"> Export PDF</a>
         </div>
     </div>
 </div>

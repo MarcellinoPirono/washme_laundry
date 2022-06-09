@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
+use Illuminate\Validation\Rules\Exists;
 
 class HomeController extends Controller
 {
@@ -28,9 +29,22 @@ class HomeController extends Controller
 
         $riwayat = DB::table('riwayattransaksis')
             ->where('no_invoice', $cari)
-            ->get();
+            ->first();
 
-        return view('cari', ['riwayattransaksis' => $riwayat]);
-        // dd($riwayat);
+        // $riwayat2 = $riwayat;
+
+        if ($cari == null) {
+            return view('404');
+        } else {
+            if ($riwayat == null) {
+                return view('404');
+            } else {
+                return view('cari', ['riwayattransaksis' => $riwayat]);
+            }
+        }
+
+        // return view('cari', ['riwayattransaksis' => $riwayat]);
+        // dd($riwayat, $cari, $request->all());
+        // dd($riwayat->get_class_methods['items']);
     }
 }

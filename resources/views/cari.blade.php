@@ -52,26 +52,26 @@
                             <form class="col-6" action="#">
                                 <div class="d-flex my-2">
                                     <div class="text-black-100 ml-3 mt-2 mb-1 small">No. Invoice</div>
-                                    <div class="text-black-100 ml-7 mt-2 mb-1 small">: {{ $riwayattransaksis[0]->no_invoice }}</div>
+                                    <div class="text-black-100 ml-7 mt-2 mb-1 small">: {{ $riwayattransaksis->no_invoice }}</div>
                                 </div>
                                 <!-- Divider -->
                                 <hr class="dropdown-divider">
                                 <div class="d-flex my-2">
                                     <div class="text-black-100 ml-3 mt-2 mb-1 small">Tanggal Transaksi</div>
-                                    <div class="text-black-100 ml-6 mt-2 mb-1 small">: {{ $riwayattransaksis[0]->tgl_transaksi }}</div>
+                                    <div class="text-black-100 ml-6 mt-2 mb-1 small">: {{ $riwayattransaksis->tgl_transaksi }}</div>
                                 </div>
                                 <!-- Divider -->
                                 <hr class="dropdown-divider">
                                 <div class="d-flex my-2">
                                     <div class="text-black-100 ml-3 mt-2 mb-1 small">Nama</div>
-                                    <div class="text-black-100 ml-82 mt-2 mb-1 small">: {{ $riwayattransaksis[0]->nama }}</div>
+                                    <div class="text-black-100 ml-82 mt-2 mb-1 small">: {{ $riwayattransaksis->nama }}</div>
                                 </div>
                                 <!-- Divider -->
                                 <hr class="dropdown-divider">
                                 <div class="d-flex my-2 mb-3">
                                     <div class="text-black-100 ml-3 mt-2 mb-1 small">Proses</div>
                                     <div class="text-black-100 ml-83 mt-2 mb-1 small">:</div>
-                                    <div class="proses text-center align-items-center">{{ $riwayattransaksis[0]->status_proses }}</div>
+                                    <div class="proses text-center align-items-center">{{ $riwayattransaksis->status_proses }}</div>
                                 </div>
                                 <div class="col-pelanggan d-flex justify-content-end align-item-center">
                                     <div class="form-group col-sm-9 col-lg-5 col-xl-5 col-md-5">

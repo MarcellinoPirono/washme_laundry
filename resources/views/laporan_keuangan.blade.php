@@ -3,6 +3,14 @@
 @section('container')
 <!-- Begin Page Content -->
 <div class="container-fluid">
+    @if(session()->has('success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('success') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    @endif
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between shape-dashboard">
@@ -62,21 +70,15 @@
                             <td>{{ $laporan['keterangan'] }}</td>
                             @endif
                             <td>
-                                <a href="#" data-toggle="modal" data-target="#deleteModal"><img class="btn-table gambar-table" src="assets/img/image/delete.png" style="width: 35px;"></a>
+                                <a href="#" class="btn btn-danger" style="width: 28px; height: 32px;" data-toggle="modal" data-target="#deleteModal{{ $laporan['tanggal'] }}"><i class=" fas fa-trash-alt fa-xs ml-n1 mb-1"></i></a>
+                                @include('partials.deletelaporan')
                             </td>
                         </tr>
                         @endforeach
                     </tbody>
                 </table>
             </div>
-            <div class="mt-3 btn btn-danger">
-                <img class="mb-1" src="assets/img/image/pdf.png" style="width: 20px;">
-                Export PDF
-            </div>
-            <div class="mt-3 btn btn-success">
-                <img class="mb-1" src="assets/img/image/excel.png" style="width: 25.5px;">
-                Export Excel
-            </div>
+            <a href="/downloadpdf1_kelola" class="mt-3 btn btn-danger "><img class="mb-1" src="assets/img/image/pdf.png" width="25px"> Export PDF</a>
         </div>
     </div>
 </div>

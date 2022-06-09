@@ -12,6 +12,7 @@ use App\Models\Transaksi_Kiloan;
 use App\Models\Transaksi_Satuan;
 use App\Models\Waktu;
 use DB;
+use PDF;
 use Illuminate\Http\Request;
 
 class RiwayatTransaksiController extends Controller
@@ -62,15 +63,12 @@ class RiwayatTransaksiController extends Controller
         $pelanggan = Data_Pelanggan::all()->where('no_invoice', $no_invoice)->first();
         $transaksi = Transaksi_Kiloan::all()->where('no_invoice', $no_invoice);
         $transaksis = DB::table('transaksi__satuans')->select()->where('no_invoice', $no_invoice)->get();
-        
-        if($layanan[0]->layanan == 'Satuan')
-        {
+
+        if ($layanan[0]->layanan == 'Satuan') {
             return view('detail.detail_transaksi_satuan', [
                 'title' => 'Riwayat Transaksi'
             ], compact('pelanggan', 'transaksis'));
-        }
-        else
-        {
+        } else {
             return view('detail.detail_transaksi_kiloan', [
                 'title' => 'Riwayat Transaksi'
             ], compact('pelanggan', 'transaksi'));
@@ -89,24 +87,21 @@ class RiwayatTransaksiController extends Controller
         $pelanggan = Data_Pelanggan::all()->where('no_invoice', $no_invoice)->first();
         //Kiloan
         $transaksi = Transaksi_Kiloan::all()->where('no_invoice', $no_invoice)->first();
-        $nota_kiloan = Nota_Kiloan::all()->where('no_invoice', $no_invoice)->first(); 
+        $nota_kiloan = Nota_Kiloan::all()->where('no_invoice', $no_invoice)->first();
         //Satuan       
         $transaksis = DB::table('transaksi__satuans')->select()->where('no_invoice', $no_invoice)->get();
         $total_transaksi = count($transaksis);
         $transaksi1 = Transaksi_Satuan::all()->where('no_invoice', $no_invoice)->last();
         $nota_satuan = DB::table('nota__satuans')->select()->where('no_invoice', $no_invoice)->get();
 
-        if($layanan[0]->layanan == 'Satuan')
-        {
+        if ($layanan[0]->layanan == 'Satuan') {
             $size = DB::table('sizes')->select('id')->where('size_item', $transaksi1->size)->get();
             $item_id = DB::table('data__layanan__satuans')->select('id')->where('item', $transaksi1->item)->where('size_id', $size[0]->id)->first();
             return view('partials.edit_transaksi_satuan', [
                 'title' => 'Riwayat Transaksi'
             ], compact('pelanggan', 'transaksis', 'transaksi1', 'item_id', 'nota_satuan', 'total_transaksi'));
             // dd($pelanggan);
-        }
-        else
-        {
+        } else {
             $jenis_id = DB::table('nota__kiloans')->select('layanan', 'estimasi_waktu')->where('no_invoice', $no_invoice)->first();
             $jenis_new_id = DB::table('data__layanan__kiloans')->select('id')->where('jenis', $jenis_id->layanan)->where('estimasi_waktu', $jenis_id->estimasi_waktu)->first();
             return view('partials.edit_transaksi_kiloan', [
@@ -131,11 +126,9 @@ class RiwayatTransaksiController extends Controller
         $pelanggan[0]->handphone = $request->input('handphone');
         $pelanggan[0]->email = $request->input('email');
         $pelanggan[0]->alamat = $request->input('alamat');
-        if($request->sisa_biaya == 0)
-        {
+        if ($request->sisa_biaya == 0) {
             $status_pembayaran = 'Sudah Lunas';
-        } else
-        {
+        } else {
             $status_pembayaran = 'Belum Lunas';
         }
         $pelanggan[0]->status_pembayaran = $status_pembayaran;
@@ -162,12 +155,9 @@ class RiwayatTransaksiController extends Controller
         $nota[0]->update();
 
         //Riwayat Transaksi
-        if($request->jenis == 1)
-        {
+        if ($request->jenis == 1) {
             $jenis_new = "Express";
-        }
-        else
-        {
+        } else {
             $jenis_new = "Normal";
         }
         $layanan_jenis = "$layanan($jenis_new)";
@@ -210,11 +200,9 @@ class RiwayatTransaksiController extends Controller
         $pelanggan[0]->handphone = $request->input('handphone');
         $pelanggan[0]->email = $request->input('email');
         $pelanggan[0]->alamat = $request->input('alamat');
-        if($request->sisa_biaya == 0)
-        {
+        if ($request->sisa_biaya == 0) {
             $status_pembayaran = 'Sudah Lunas';
-        } else
-        {
+        } else {
             $status_pembayaran = 'Belum Lunas';
         }
         $pelanggan[0]->status_pembayaran = $status_pembayaran;
@@ -224,30 +212,29 @@ class RiwayatTransaksiController extends Controller
 
         //Nota Satuan
         $all_pesanan = $request->tot_pesanan;
-        if($request->sisa_biaya == 0){
+        if ($request->sisa_biaya == 0) {
             $status_pembayaran = "Sudah Lunas";
         } else {
             $status_pembayaran = "Belum Lunas";
         }
 
-        $nama_arr=[];
-        $status_pembayaran_arr=[];
-        $estimasi_waktu_arr=[];
-        $total_biaya_arr=[];
-        $biaya_sekarang_arr=[];
-        $sisa_biaya_arr=[];
-        $via_arr=[];
-        $mulai_arr=[];
-        $selesai_arr=[];
-        $keterangan_arr=[];
+        $nama_arr = [];
+        $status_pembayaran_arr = [];
+        $estimasi_waktu_arr = [];
+        $total_biaya_arr = [];
+        $biaya_sekarang_arr = [];
+        $sisa_biaya_arr = [];
+        $via_arr = [];
+        $mulai_arr = [];
+        $selesai_arr = [];
+        $keterangan_arr = [];
 
         $nota = Nota_Satuan::where('no_invoice', $no_invoice)->get();
         // $notas = DB::table('');
         // dd($request->all());
 
 
-        for($i=0; $i<$all_pesanan; $i++)
-        {
+        for ($i = 0; $i < $all_pesanan; $i++) {
             $nama_arr[$i] = $request->nama;
             $status_pembayaran_arr[$i] = $status_pembayaran;
             $estimasi_waktu_arr[$i] = $request->waktu_id;
@@ -261,14 +248,13 @@ class RiwayatTransaksiController extends Controller
             $keterangan_arr[$i] = $request->keterangan;
         }
 
-        for($j=0; $j<$all_pesanan; $j++)
-        {
+        for ($j = 0; $j < $all_pesanan; $j++) {
             $nota[$j]->nama = $nama_arr[$j];
             $nota[$j]->status_pembayaran = $status_pembayaran_arr[$j];
-            $nota[$j]->item = $request->item_arr[$j+1];
+            $nota[$j]->item = $request->item_arr[$j + 1];
             $nota[$j]->estimasi_waktu = $estimasi_waktu_arr[$j];
-            $nota[$j]->jumlah = $request->jumlah_arr[$j+1];
-            $nota[$j]->harga = $request->total_arr[$j+1];
+            $nota[$j]->jumlah = $request->jumlah_arr[$j + 1];
+            $nota[$j]->harga = $request->total_arr[$j + 1];
             $nota[$j]->total_biaya = $total_biaya_arr[$j];
             $nota[$j]->biaya_sekarang = $biaya_sekarang_arr[$j];
             $nota[$j]->sisa_biaya = $sisa_biaya_arr[$j];
@@ -294,13 +280,12 @@ class RiwayatTransaksiController extends Controller
 
         //Transaksi Satuan
         $transaksi = Transaksi_Satuan::where('no_invoice', $no_invoice)->get();
-        for($k=0; $k<$all_pesanan; $k++)
-        {
-            $transaksi[$k]->layanan = $request->layanan_arr[$k+1];
-            $transaksi[$k]->item = $request->item_arr[$k+1];
-            $transaksi[$k]->size = $request->size_arr[$k+1];
-            $transaksi[$k]->harga = $request->total_arr[$k+1];
-            $transaksi[$k]->jumlah = $request->jumlah_arr[$k+1];
+        for ($k = 0; $k < $all_pesanan; $k++) {
+            $transaksi[$k]->layanan = $request->layanan_arr[$k + 1];
+            $transaksi[$k]->item = $request->item_arr[$k + 1];
+            $transaksi[$k]->size = $request->size_arr[$k + 1];
+            $transaksi[$k]->harga = $request->total_arr[$k + 1];
+            $transaksi[$k]->jumlah = $request->jumlah_arr[$k + 1];
             $transaksi[$k]->total_biaya = $total_biaya_arr[$k];
             $transaksi[$k]->biaya_sekarang = $biaya_sekarang_arr[$k];
             $transaksi[$k]->sisa_biaya = $sisa_biaya_arr[$k];
@@ -323,17 +308,14 @@ class RiwayatTransaksiController extends Controller
     public function destroy($no_invoice)
     {
         $layanan = DB::table('riwayattransaksis')->select('layanan')->where('no_invoice', $no_invoice)->get();
-        if($layanan[0]->layanan == 'Satuan')
-        {
+        if ($layanan[0]->layanan == 'Satuan') {
             Data_Pelanggan::where('no_invoice', $no_invoice)->delete();
             Nota_Satuan::where('no_invoice', $no_invoice)->delete();
             riwayattransaksi::where('no_invoice', $no_invoice)->delete();
             Transaksi_Satuan::where('no_invoice', $no_invoice)->delete();
             // LaporanKeuangan::where('no_invoice', $no_invoice)->delete();
             return redirect('riwayat_transaksi')->with('success', 'Data berhasil dihapus!');
-        }
-        else
-        {
+        } else {
             Data_Pelanggan::where('no_invoice', $no_invoice)->delete();
             Nota_Kiloan::where('no_invoice', $no_invoice)->delete();
             riwayattransaksi::where('no_invoice', $no_invoice)->delete();
@@ -341,5 +323,14 @@ class RiwayatTransaksiController extends Controller
             // LaporanKeuangan::where('no_invoice', $no_invoice)->delete();
             return redirect('riwayat_transaksi')->with('success', 'Data berhasil dihapus!');
         }
+    }
+
+    public function exportpdf_transaksi()
+    {
+        $data = DB::table('riwayattransaksis')->get();
+
+        view()->share('data', $data);
+        $pdf = PDF::loadview('download_riwayat_transaksi');
+        return $pdf->download('Riwayat_Transaksi.pdf');
     }
 }

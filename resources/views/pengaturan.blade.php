@@ -1,39 +1,80 @@
 @extends('layouts.main')
 
 @section('container')
-    <!-- Begin Page Content -->
-    <div class="container-fluid">
+<!-- Begin Page Content -->
+<div class="container-fluid">
+    @if(session()->has('success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('success') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    @endif
 
-        <!-- Page Heading -->
-        <div class="d-sm-flex align-items-center justify-content-between">
-            <h1 class="h3 mb-0 text-black-800 ml-3">Edit Profil</h1>
-        </div>
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between">
+        <h1 class="h3 mb-0 text-black-800 ml-3">Edit Profil</h1>
+    </div>
 
-        <!-- Content Row -->
+    <!-- Content Row -->
+    <form method='post' action="/pengaturan_username" enctype="multipart/form-data">
         <div class="row">
+            @csrf
             <div class="col-sm-3 col-lg-3 col-xl-3 col-md-4">
-                <a class="btn"><i class="fas fa-user-circle fa-10x ml-n2" style="color: black; width: 200px;"></i></a>
-                <h1 class="h3 mb-0 text-black-800 ml-4 lead">Ganti Foto Profil</h1>
+                <img class="img-preview img-fluid mb-3 col-sm-5">
+                <input id="image" name="image" class="@error('image') is-invalid @enderror" type="file" onchange="previewImage()" />
+                @error('image')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+                @enderror
             </div>
-            <div class="col-sm-3 col-lg-3 col-xl-8 col-md-4">
-                <form class="col-sm-12 col-lg-8 col-xl-6 col-md-6" action="#">
+            <div class="col-sm-3 col-lg-3 col-xl-4 col-md-4">
+                <div class="col-sm-12 col-lg-8 col-xl-8 col-md-6">
                     <div class="text-black-800 ml-3 mt-2 mb-1 lead setting">Username:</div>
                     <div class="form-group col-pelanggan position-relative">
-                        <input type="text" class="form-control bg-transparent border-0 border-bottom-dark" id="exampleInputUser1" aria-describedby="textuser1" placeholder="Ubah Username" required>
+                        <input type="text" name="username" class="form-control @error('username') is-invalid @enderror" id="username" aria-describedby="textName1" placeholder="Masukkan Username" required value="{{ old('username') }}">
+                        @error('username')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
                     </div>
                     <div class="text-black-800 ml-3 mt-2 mb-1 lead setting">Password:</div>
                     <div class="form-group col-pelanggan">
-                        <input type="password" class="form-control bg-transparent border-0 border-bottom-dark" id="exampleInputPass3" aria-describedby="textPass3" placeholder="Ubah Password" required>
+                        <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" id="password" aria-describedby="textPass1" placeholder="Masukkan Password" required value="{{ old('password') }}">
+                        @error('password')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
                     </div>
-                </form>
+                </div>
             </div>
         </div>
         <div class="form-group text-center">
-            <a href="#" class="btn btn-secondary">Simpan Perubahan</a>
+            <button class="btn btn-secondary">Simpan Perubahan</button>
         </div>
         <div class="form-group text-center mb-5 pb-3">
             <a href="#" data-toggle="modal" data-target="#logoutModal" class="btn btn-danger" style="width: 180px;">Logout</a>
         </div>
-    </div>
-    <!-- End of Main Content -->
+    </form>
+</div>
+<!-- End of Main Content -->
+<script>
+    function previewImage() {
+        const image = document.querySelector('#image');
+        const imgPreview = document.querySelector('.img-preview');
+
+        imgPreview.style.display = 'block';
+
+        const oFReader = new FileReader();
+        oFReader.readAsDataURL(image.files[0]);
+
+        oFReader.onload = function(oFREvent) {
+            imgPreview.src = oFREvent.target.result;
+        }
+    }
+</script>
 @endsection

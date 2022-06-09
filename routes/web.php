@@ -21,6 +21,8 @@
     use App\Http\Controllers\LaporanKeuanganController;
     use App\Http\Controllers\ValidatePengeluaranController;
     use App\Http\Controllers\HomeController;
+    use App\Http\Controllers\ProfileController;
+
 
     /*
 |--------------------------------------------------------------------------
@@ -40,6 +42,9 @@
     Route::get('/login', [LoginController::class, 'index']);
     Route::post('/login', [LoginController::class, 'authenticate']);
     Route::post('/logout', [LoginController::class, 'logout']);
+
+    Route::get('/pengaturan', [ProfileController::class, 'index'])->middleware('auth');
+    Route::post('/pengaturan_username', [ProfileController::class, 'store'])->middleware('auth');
 
     Route::resource('/dashboard', AdminCategoryController::class)->middleware('admin');
     Route::resource('/pesanan', AdminCategoryController::class);
@@ -65,6 +70,7 @@
 
     Route::resource('/laporan_keuangan', LaporanKeuanganController::class)->middleware('admin');
     Route::get('/laporan', [LaporanKeuanganController::class, 'tabel'])->middleware('admin');
+    Route::get('/deletelaporan/{tanggal}', [LaporanKeuanganController::class, 'delete'])->middleware('admin');
     Route::resource('/input_pengeluaran', InputPengeluaranController::class)->middleware('auth');
     Route::post('/pengeluaran', [ValidatePengeluaranController::class, 'store'])->middleware('auth');
     // Route::get('/input_pengeluaran', [InputPengeluaranController::class, 'store'])->middleware('auth');
@@ -101,6 +107,8 @@
     //export PDF
     Route::get('/exportpdf_{no_invoice}', [NotaKiloanController::class, 'exportpdf'])->middleware('auth');
     Route::get('/exportpdf1_{no_invoice}', [NotaSatuanController::class, 'exportpdf'])->middleware('auth');
+    Route::get('/downloadpdf_transaksi', [RiwayatTransaksiController::class, 'exportpdf_transaksi'])->middleware('auth');
+    Route::get('/downloadpdf1_kelola', [LaporanKeuanganController::class, 'exportpdf_kelola'])->middleware('auth');
 
     //send Email
     Route::get('/sendemail_kiloan_{no_invoice}', [EmailController::class, 'index'])->middleware('auth');
@@ -125,8 +133,8 @@
     //     ]);
     // })->middleware('auth');
 
-    Route::get('/pengaturan', function () {
-        return view('pengaturan', [
-            "title" => "Pengaturan"
-        ]);
-    })->middleware('auth');
+    // Route::get('/pengaturan', function () {
+    //     return view('pengaturan', [
+    //         "title" => "Pengaturan"
+    //     ]);
+    // })->middleware('auth');
